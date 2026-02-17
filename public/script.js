@@ -2,50 +2,47 @@ document.addEventListener('DOMContentLoaded', () => {
   const resourcesList = document.getElementById('resourcesList');
   const searchInput = document.getElementById('searchInput');
   const categoryFilter = document.getElementById('categoryFilter');
-  
   let allResources = [];
-  
-  // Fetch resources from the server
+
+  // Load resources from server
   fetch('/api/resources')
-    .then(response => response.json())
+    .then(res => res.json())
     .then(data => {
       allResources = data;
-      displayResources(allResources);
-    })
-    .catch(error => console.error('Error fetching resources:', error));
-  
-  // Function to display resources
-  function displayResources(resources) {
+      renderCards(allResources);
+    });
+
+  function renderCards(data) {
     resourcesList.innerHTML = '';
-    resources.forEach(resource => {
-      const card = document.createElement('div');
-      card.className = 'col-md-4';
-      card.innerHTML = `
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title"><a href="${resource.url}" target="_blank">${resource.title}</a></h5>
-            <p class="card-text">${resource.description}</p>
-            <p class="card-text"><small class="text-muted">Category: ${resource.category}</small></p>
+    data.forEach(item => {
+      const card = `
+        <div class="col-md-4 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">${item.title}</h5>
+              <p class="card-text text-muted">${item.description}</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <a href="${item.url}" target="_blank" class="btn btn-sm btn-outline-primary">View Resource</a>
+                <span class="badge bg-secondary">${item.category}</span>
+              </div>
+            </div>
           </div>
-        </div>
-      `;
-      resourcesList.appendChild(card);
+        </div>`;
+      resourcesList.innerHTML += card;
     });
   }
-  
-  // Filter resources based on search and category
-  function filterResources() {
-    const query = searchInput.value.toLowerCase();
-    const category = categoryFilter.value;
-    const filtered = allResources.filter(resource => {
-      const matchesQuery = resource.title.toLowerCase().includes(query) || resource.category.toLowerCase().includes(query);
-      const matchesCategory = !category || resource.category === category;
-      return matchesQuery && matchesCategory;
-    });
-    displayResources(filtered);
+
+  // Live Filtering
+  function filter() {
+    const term = searchInput.value.toLowerCase();
+    const cat = categoryFilter.value;
+    const filtered = allResources.filter(r => 
+      (r.title.toLowerCase().includes(term) || r.description.toLowerCase().includes(term)) &&
+      (cat === '' || r.category === cat)
+    );
+    renderCards(filtered);
   }
-  
-  // Event listeners for search and filter
-  searchInput.addEventListener('input', filterResources);
-  categoryFilter.addEventListener('change', filterResources);
+
+  searchInput.addEventListener('input', filter);
+  categoryFilter.addEventListener('change', filter);
 });

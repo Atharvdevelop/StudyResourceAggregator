@@ -4,63 +4,51 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Study Resource Aggregator</title>
-  <!-- Bootstrap CSS (via CDN for simplicity) -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Custom CSS -->
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
   <div class="container mt-5">
     <h1 class="text-center mb-4">Study Resource Aggregator</h1>
     
-    <!-- Search/Filter Section -->
     <div class="mb-4">
-      <input type="text" id="searchInput" class="form-control" placeholder="Search resources by title or category...">
+      <input type="text" id="searchInput" class="form-control" placeholder="Search resources...">
       <select id="categoryFilter" class="form-select mt-2">
         <option value="">All Categories</option>
         <option value="Math">Math</option>
         <option value="Science">Science</option>
         <option value="Programming">Programming</option>
-        <!-- Add more categories as needed -->
       </select>
     </div>
-    
-    <!-- Resources List -->
-    <div id="resourcesList" class="row">
-      <!-- Resources will be loaded here via JavaScript -->
-    </div>
-    
-    <!-- Add Resource Form -->
+
+    <div id="resourcesList" class="row"></div>
+
     <h2 class="mt-5">Add a New Resource</h2>
-    <form action="/add-resource" method="POST" class="mb-5">
+    <form action="/add-resource" method="POST" class="border p-4 rounded bg-white mb-5">
       <div class="mb-3">
-        <label for="title" class="form-label">Title</label>
-        <input type="text" id="title" name="title" class="form-control" required>
+        <label class="form-label">Title</label>
+        <input type="text" name="title" class="form-control" required>
       </div>
       <div class="mb-3">
-        <label for="description" class="form-label">Description</label>
-        <textarea id="description" name="description" class="form-control" required></textarea>
+        <label class="form-label">Description</label>
+        <textarea name="description" class="form-control" required></textarea>
       </div>
       <div class="mb-3">
-        <label for="url" class="form-label">URL</label>
-        <input type="url" id="url" name="url" class="form-control" required>
+        <label class="form-label">URL</label>
+        <input type="url" name="url" class="form-control" required>
       </div>
       <div class="mb-3">
-        <label for="category" class="form-label">Category</label>
-        <select id="category" name="category" class="form-select" required>
-          <option value="">Select Category</option>
+        <label class="form-label">Category</label>
+        <select name="category" class="form-select" required>
           <option value="Math">Math</option>
           <option value="Science">Science</option>
           <option value="Programming">Programming</option>
         </select>
       </div>
-      <button type="submit" class="btn btn-primary">Add Resource</button>
+      <button type="submit" class="btn btn-primary w-100">Add Resource</button>
     </form>
   </div>
-  
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- Custom JS -->
+
   <script src="/script.js"></script>
 </body>
 </html>
